@@ -1,2 +1,2 @@
-# gh-adv-sec
-GitHub Advanced Security POC
+# adv-security-poc
+Explore GH Advanced Security Functionality
