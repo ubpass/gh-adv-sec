@@ -14,8 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:  
       MVN: mvn --show-version --batch-mode -Dbuild_version=${{ github.run_number }}
-    steps:
-    
+    steps:  
     - name: checkout
       uses: actions/checkout@v2
       
@@ -40,8 +39,15 @@ jobs:
       
     - name: package
       if: github.ref == 'refs/heads/main'
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-jar
+        path: target/vulnapp-${{ github.run_number }}.jar
       run: ${MVN} package -DskipTests
-      
+  
+  release:
+    runs-on: ubuntu-latest
+    steps:  
     - name: docker login
       if: github.ref == 'refs/heads/main'
       uses: docker/login-action@v1
@@ -50,8 +56,14 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
           
-    - name: build and release image
+    - name: download artifact
       if: github.ref == 'refs/heads/main'
+      uses: actions/download-artifact@v2
+      with:
+        name: app-jar
+        path: app.jar
+    
+    - name: publish container image
       uses: docker/build-push-action@v2
       with:
         build-args: build_number=${{ github.run_number }}
