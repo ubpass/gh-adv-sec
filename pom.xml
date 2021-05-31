@@ -17,7 +17,7 @@
     
     <properties>
         <java.version>8</java.version>
-        <build_version>1.0.0-SNAPSHOT</build_version>
+        <build_version>0.0.1-SNAPSHOT</build_version>
     </properties>
     
     <dependencies>
