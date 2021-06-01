@@ -9,7 +9,13 @@ on:
     - "Dockerfile"
   pull_request:
     branches: [ main ]
+  schedule:
+  - cron: "15 1 * * 0"
 
+concurrency:
+  group: ci
+  cancel-in-progress: true
+  
 jobs:
 
   build:
@@ -76,5 +82,5 @@ jobs:
         push: true
         context: /home/runner/work/gh-adv-sec/gh-adv-sec
         tags: |
-          docker.pkg.github.com/${{ github.repository }}/gh-adv-sec:${{ github.sha }}
-          docker.pkg.github.com/${{ github.repository }}/gh-adv-sec:${{ github.run_number }}
+          ghcr.io/${{ github.repository }}/gh-adv-sec:${{ github.sha }}
+          ghcr.io/${{ github.repository }}/gh-adv-sec:${{ github.run_number }}
