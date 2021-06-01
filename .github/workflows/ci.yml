@@ -10,7 +10,7 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-  - cron: "15 1 * * 0"
+  - cron: "15 1 * * 1"
 
 concurrency:
   group: ci
@@ -51,7 +51,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: release
+        name: release-${{github.run_number}}
         path: |
           target/vulnapp-${{ github.run_number }}.jar
           Dockerfile
@@ -74,13 +74,15 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
-        name: release
+        name: release-${{github.run_number}}
         path: /home/runner/work/gh-adv-sec/gh-adv-sec/
         
     - name: Build & Publish image
       uses: docker/build-push-action@v2
       with:
-        build-args: build_number=${{ github.run_number }}
+        build-args: |
+          build_number=${{ github.run_number }}
+          revision_number=${{ github.sha }}
         push: true
         context: /home/runner/work/gh-adv-sec/gh-adv-sec
         tags: |
