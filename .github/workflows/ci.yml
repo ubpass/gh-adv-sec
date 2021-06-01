@@ -44,8 +44,10 @@ jobs:
     - name: upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: app-jar
-        path: target/vulnapp-${{ github.run_number }}.jar
+        name: release
+        path: |
+          target/vulnapp-${{ github.run_number }}.jar
+          Dockerfile
   
   release:
     runs-on: ubuntu-latest
@@ -63,15 +65,18 @@ jobs:
     - name: download artifact
       uses: actions/download-artifact@v2
       with:
-        name: app-jar
-        path: app.jar
+        name: release
+        path: /home/runner/work/gh-adv-sec/gh-adv-sec/
+        
+    - name: list directory
+      run: ls -lah /home/runner/work/gh-adv-sec/gh-adv-sec/
     
     - name: publish container image
       uses: docker/build-push-action@v2
       with:
         build-args: build_number=${{ github.run_number }}
         push: true
-        context: .
+        context: /home/runner/work/gh-adv-sec/gh-adv-sec
         tags: |
           docker.pkg.github.com/${{ github.repository }}/image:${{ github.sha }}
           docker.pkg.github.com/${{ github.repository }}/image:${{ github.run_number }}
