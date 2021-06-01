@@ -71,6 +71,7 @@ jobs:
       with:
         build-args: build_number=${{ github.run_number }}
         push: true
+        context: .
         tags: |
           docker.pkg.github.com/${{ github.repository }}/image:${{ github.sha }}
           docker.pkg.github.com/${{ github.repository }}/image:${{ github.run_number }}
