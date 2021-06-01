@@ -8,12 +8,12 @@ on:
     - "pom.xml"
   pull_request:
     branches: [ main ]
-    
+env:  
+  MVN: mvn --show-version --batch-mode -Dbuild_version=${{ github.run_number }}
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-    env:  
-      MVN: mvn --show-version --batch-mode -Dbuild_version=${{ github.run_number }}
     steps:  
     - name: checkout
       uses: actions/checkout@v2
@@ -31,14 +31,29 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         
-    - name: build
-      run: ${MVN} clean compile
-      
     - name: test
       run: ${MVN} test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:  
+    - name: checkout
+      uses: actions/checkout@v2
+      
+    - name: cache ~/.m2
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+        
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
       
     - name: package
-      if: github.ref == 'refs/heads/main'
       run: ${MVN} package -DskipTests
       
     - name: upload artifact
@@ -52,7 +67,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: build
+    needs: | 
+      build
+      test
     steps:  
     - name: docker login
       uses: docker/login-action@v1
