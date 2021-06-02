@@ -44,7 +44,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         config-file: ubpass/gh-adv-sec-config/codeql-config.yaml@main
-        external-repository-token: ${{ secrets.GITHUB_TOKEN }}
+#        external-repository-token: ${{ secrets.GITHUB_TOKEN }}
         queries: .github/codeql
 
     - name: Build Application
