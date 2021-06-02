@@ -5,7 +5,7 @@ on:
     paths:
       - "src/**"
       - "pom.xml"
-    branches-ignore: [ 'dependabot/*' ]
+    branches-ignore: [ 'dependabot/**' ]
   pull_request:
     branches: [ main ]
   schedule:
@@ -15,7 +15,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    env:  
+    env:
       MVN: mvn --show-version --batch-mode
     permissions:
       actions: read
