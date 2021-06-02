@@ -12,7 +12,7 @@ on:
     - cron: '32 5 * * 2'
 
 concurrency:
-  group: sast
+  group: sast-$${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
