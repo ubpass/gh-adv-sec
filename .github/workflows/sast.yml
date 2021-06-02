@@ -11,6 +11,10 @@ on:
   schedule:
     - cron: '32 5 * * 2'
 
+concurrency:
+  group: sast
+  cancel-in-progress: true
+
 jobs:
   analyze:
     name: Analyze
