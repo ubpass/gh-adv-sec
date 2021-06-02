@@ -34,10 +34,10 @@ jobs:
 
     steps:
     - name: Print refs
-      run:
-      - echo $${{ github.ref }}
-      - echo $${{ github.head_ref }}
-      - echo $${{ github.base_ref }}
+      run: |
+        echo $${{ github.ref }}
+        echo $${{ github.head_ref }}
+        echo $${{ github.base_ref }}
 
     - name: Checkout repository
       uses: actions/checkout@v2
