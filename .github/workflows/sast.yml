@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
@@ -32,6 +33,12 @@ jobs:
         language: [ 'java' ]
 
     steps:
+    - name: Print refs
+      run:
+      - echo $${{ github.ref }}
+      - echo $${{ github.head_ref }}
+      - echo $${{ github.base_ref }}
+
     - name: Checkout repository
       uses: actions/checkout@v2
 
