@@ -43,8 +43,7 @@ jobs:
       uses: github/codeql-action/init@v1
       with:
         languages: ${{ matrix.language }}
-        config-file: ubpass/gh-adv-sec-config/codeql-config.yaml@main
-#        external-repository-token: ${{ secrets.GITHUB_TOKEN }}
+        config-file: ubpass/gh-adv-sec-config/codeql-config-java.yml@main
         queries: +./.github/codeql
 
     - name: Build Application
