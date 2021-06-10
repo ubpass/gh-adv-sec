@@ -1,4 +1,4 @@
-package com.example.vulnapp;
+package com.example.vulnapp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
